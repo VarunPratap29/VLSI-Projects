@@ -1,0 +1,54 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+--  Uncomment the following lines to use the declarations that are
+--  provided for instantiating Xilinx primitive components.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity shsaar is
+    Port ( main_disable : in std_logic;
+           fire_sensor : in std_logic;
+           rain_sensor : in std_logic;
+           intrude_sensor : in std_logic;
+           fire_disable : in std_logic;
+           rain_disable : in std_logic;
+           intrude_disable : in std_logic;
+           fire_alarm : out std_logic;
+           rain_alarm : out std_logic;
+           intrude_alarm : out std_logic);
+end shsaar;
+
+architecture Behavioral of shsaar is
+
+begin
+	 process (main_disable,fire_sensor,rain_sensor,intrude_sensor)
+
+	  begin
+	     if (main_disable = '0') then
+		    if (fire_sensor = '1' and fire_disable='0')then
+		        fire_alarm <='1';
+		    else
+		        fire_alarm <='0';
+			   end if ;
+		    if ( Rain_sensor ='1' and rain_disable='0')then
+		          rain_alarm <='1';
+			else
+			    rain_alarm <='0';
+			    end if;
+			if (intrude_sensor ='1' and intrude_disable='0')then
+			     intrude_alarm <='1';
+			  else
+			      intrude_alarm <='0';
+				 end if;
+		   else
+		   fire_alarm<='0';
+		   rain_alarm<='0';
+		   intrude_alarm<='0';
+
+		  end if;
+		  end process;
+
+end Behavioral;
