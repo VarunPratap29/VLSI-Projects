@@ -1,0 +1,35 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity monostable_multivibrator is
+    Port ( reset : in std_logic;
+           CLK : in std_logic;
+           Y : out std_logic);
+end monostable_multivibrator;
+
+architecture structural of monostable_multivibrator is
+    component t_ff
+        Port ( CLK : in std_logic;
+               reset : in std_logic;
+               T : in std_logic;
+               Q : out std_logic);
+    end component;
+    
+    component XOR_gate
+        Port ( a, b : in std_logic;
+               c : out std_logic);
+    end component;
+
+    signal S1, S2, S3 : std_logic;
+
+begin
+    -- Assume T is '1' for toggle
+    X1 : t_ff port map ( CLK => CLK, reset => reset, T => '1', Q => S1);
+    X2 : t_ff port map ( CLK => CLK, reset => reset, T => '1', Q => S2);
+    
+    -- Create a delayed signal for S2
+    S3 <= S2 after 10 ns;
+    
+    -- Instantiate XOR gate
+    X3 : XOR_gate port map ( a => S1, b => S3, c => Y);
+end structural;
